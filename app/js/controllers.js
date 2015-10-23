@@ -4,11 +4,16 @@
 
 var ctrl = angular.module('betterworksControllers', []);
 ctrl.controller('ChartCtrl', function($scope) {
+    // Test data
     $scope.chartData = [
-        {'expected': 0.5, 'actual': 0.5},
+        {'expected': 0.5, 'actual': 0.25},
         {'expected': 0.1, 'actual': 1},
         {'expected': 2, 'actual': -3},
+        {'expected': 0.5, 'actual': NaN},
+        {'expected': NaN, 'actual': 0.35}
     ];
+
+    // Controlled by input fields
     $scope.expected = Math.round(Math.random() * 100) / 100;
     $scope.actual = Math.round(Math.random() * 100) / 100;
 });
@@ -16,6 +21,8 @@ ctrl.controller('ChartCtrl', function($scope) {
 ctrl.directive("progressChart", function() {
     return {
         restrict: "E",
+        require: "?ngModel",
+        scope: {expectVal:'=', actualVal:'='},
         link: function(scope, elem, attrs) {
             var radius = 45;
             var pi = Math.PI;
@@ -34,21 +41,41 @@ ctrl.directive("progressChart", function() {
 
             // Render the XX% Progress text
             var text = group.append("text").attr('class', 'actualText')
-                                           .attr('dx', '-0.3em')
+                                           .attr('dx', '0.45em')
+                                           .attr('dy', '5px')
                                            .text(0)
-                                           .transition()
-                                           .duration(1000)
-                                           .tween("text", function(d) {
-                                                var i = d3.interpolate(this.textContent, 100 * attrs.actual);
-                                                return function(t) {
-                                                    this.textContent = Math.round(i(t));
-                                                };
-                                            });
-            group.append("text").text("%").attr('class', 'percentText').attr('dx', '1.5em');
-            group.append("text").text("Progress").attr('class', 'progressText').attr('dy', '1.1em');
+            group.append("text").text("%").attr('class', 'percentText').attr('dx', '1.5em').attr('dy', '5px');
+            group.append("text").text("Progress").attr('class', 'progressText').attr('dy', '20px');
 
-            expectPath.transition().call(arcTween, expectArc, attrs.expected);
-            actualPath.transition().call(arcTween, actualArc, attrs.actual);
+            // Update values
+            update(scope.expectVal, scope.actualVal);
+            scope.$watch('expectVal', function(newValue, oldValue) {
+                if (newValue != oldValue) {
+                    update(scope.expectVal, scope.actualVal);
+                }
+            });
+            scope.$watch('actualVal', function(newValue, oldValue) {
+                if (newValue != oldValue) {
+                    update(scope.expectVal, scope.actualVal);
+                }
+            });
+
+            function update(expect, actual) {
+                expect = bound(expect, 0, 1);
+                actual = bound(actual, 0, 1);
+                text.transition().call(textTween, actual);
+                expectPath.transition().call(arcTween, expectArc, expect);
+                actualPath.transition().call(arcTween, actualArc, actual);
+            }
+
+            function textTween(transition, newVal) {
+                transition.duration(1000).tween("text", function(d) {
+                    var i = d3.interpolate(this.textContent, 100 * newVal);
+                    return function(t) {
+                        this.textContent = Math.round(i(t));
+                    };
+                });
+            }
 
             function arcTween(transition, arc, newVal) {
                 transition.duration(1000).attrTween("d", function(d) {
@@ -57,14 +84,19 @@ ctrl.directive("progressChart", function() {
                         d.endAngle = interpolate(t);
                         return arc(d);
                     };
-                });
-                transition.attrTween("fill", function(d) {
+                }).attrTween("fill", function(d) {
                     var interpolate = d3.interpolateHsl('#D00', '#0D0');
                     return function(t) {
                         return interpolate(newVal);
                     };
                 });
-            };
+            }
+
+            function bound(number, min, max) {
+                if (isNaN(number))
+                    return 0;
+                return Math.max(Math.min(number, max), min);
+            }
         }
     };
 });

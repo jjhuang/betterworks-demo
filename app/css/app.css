@@ -1,7 +1,7 @@
 /* app css stylesheet */
 
 body {
-    font-family: 'Helvetica Neue',Arial,sans-serif;
+    font-family: Avenir,'Helvetica Neue',Arial,sans-serif;
     background: #EAEAEA;
 }
 
@@ -16,7 +16,7 @@ h1 {
 }
 
 #queries {
-    margin: 50px auto;
+    margin: 10px auto;
     position: relative;
     width: 250px;
     text-align: left;
@@ -47,20 +47,17 @@ h1 {
 .actualText {
     fill: #4D4D4D;
     font-size: 32px;
-    font-family: "Helvetica Neue",Arial,sans-serif;
-    text-anchor: middle;
+    text-anchor: end;
 }
 
 .percentText {
     fill: #606060;
     font-size: 15px;
-    font-family: "Helvetica Neue",Arial,sans-serif;
     text-anchor: middle;
 }
 
 .progressText {
     fill: #939393;
     font-size: 13px;
-    font-family: "Helvetica Neue",Arial,sans-serif;
     text-anchor: middle;
 }

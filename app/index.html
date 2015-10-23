@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Betterworks Demo</title>
   <link rel="stylesheet" href="css/app.css">
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="bower_components/d3/d3.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
@@ -16,15 +16,13 @@
         <h1>Betterworks Demo</h1>
 
         <div id="queries">
-            <div>Expected: <input ng-model="expected"></div>
-            <div>Actual: <input ng-model="actual"></div>
+            <div>Expected: <input ng-model="expected" ng-model-options="{debounce: 300}"></div>
+            <div>Actual: <input ng-model="actual" ng-model-options="{debounce: 300}"></div>
         </div>
 
-        <!--
+        <progress-chart expect-val="expected" actual-val="actual"></progress-chart>
+        <progress-chart expect-val="chart.expected" actual-val="chart.actual" ng-repeat="chart in chartData"></progress-chart>
         <img src="img/Sample.png">
-        -->
-
-        <progress-chart expected="{{expected}}" actual="{{actual}}"></progress-chart>
 
     </div>
     <div class="footer">2015/10/22 - Justin Huang</div>
