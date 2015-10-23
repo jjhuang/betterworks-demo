@@ -15,7 +15,7 @@ describe('Betterworks controllers', function() {
     it('Basic sample data test', inject(function($controller) {
         var scope = {};
         var ctrl = $controller('ChartCtrl', {$scope:scope});
-        expect(scope.chartData.length).toBe(7);
+        expect(scope.chartData.length).toBe(8);
     }));
 
     it('Produces a single chart', inject(function($controller) {
@@ -28,9 +28,10 @@ describe('Betterworks controllers', function() {
         expect(texts[1].innerHTML).toEqual('%');
         expect(texts[2].innerHTML).toEqual('Progress');
 
-        //console.log(scope.expected);
-        //console.log(texts[0].innerHTML);
-
+        function sleep(duration) {
+            var now = new Date().getTime();
+            while (new Date().getTime() < now + duration) { /* do nothing */}
+        }
     }));
   });
 });

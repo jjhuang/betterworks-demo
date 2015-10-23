@@ -20,7 +20,7 @@
             <div>Actual: <input ng-model="actual" ng-model-options="{debounce: 300}"></div>
         </div>
 
-        <progress-chart expect-val="expected" actual-val="actual"></progress-chart>
+        <progress-chart id="chart0" expect-val="expected" actual-val="actual"></progress-chart>
         <progress-chart id="chart{{chart.id}}" expect-val="chart.expected" actual-val="chart.actual" ng-repeat="chart in chartData"></progress-chart>
         <div>
             <img src="img/Sample.png" style="border: 2px dotted #000;">

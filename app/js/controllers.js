@@ -12,7 +12,8 @@ ctrl.controller('ChartCtrl', function($scope) {
         {'id': 4, 'expected': 0.5, 'actual': NaN},
         {'id': 5, 'expected': NaN, 'actual': 0.35},
         {'id': 6, 'expected': 'expected', 'actual': 'actual'},
-        {'id': 7, 'expected': Number.NEGATIVE_INFINITY, 'actual': Number.POSITIVE_INFINITY}
+        {'id': 7, 'expected': '0.75', 'actual': '0.55'},
+        {'id': 8, 'expected': Number.NEGATIVE_INFINITY, 'actual': Number.POSITIVE_INFINITY}
     ];
 
     // Controlled by input fields
@@ -87,7 +88,7 @@ ctrl.directive("progressChart", function() {
                         return arc(d);
                     };
                 }).attrTween("fill", function(d) {
-                    var interpolate = d3.interpolateHsl('#D00', '#0D0');
+                    var interpolate = d3.interpolateHsl('#B00', '#6C0');
                     return function(t) {
                         return interpolate(newVal);
                     };
@@ -95,7 +96,7 @@ ctrl.directive("progressChart", function() {
             }
 
             function bound(num, min, max) {
-                num = Number(num);
+                num = parseFloat(num);
                 if (isNaN(num))
                     return 0;
                 return Math.max(Math.min(num, max), min);
