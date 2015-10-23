@@ -61,3 +61,18 @@ h1 {
     font-size: 13px;
     text-anchor: middle;
 }
+
+.svgContainer{
+    width: 33%;
+    height: 33%;
+}
+
+.colorStart {
+    display: none;
+    fill: #B00;
+}
+
+.colorEnd {
+    display: none;
+    fill: #6C0;
+}
