@@ -21,8 +21,10 @@
         </div>
 
         <progress-chart expect-val="expected" actual-val="actual"></progress-chart>
-        <progress-chart expect-val="chart.expected" actual-val="chart.actual" ng-repeat="chart in chartData"></progress-chart>
-        <img src="img/Sample.png">
+        <progress-chart id="chart{{chart.id}}" expect-val="chart.expected" actual-val="chart.actual" ng-repeat="chart in chartData"></progress-chart>
+        <div>
+            <img src="img/Sample.png" style="border: 2px dotted #000;">
+        </div>
 
     </div>
     <div class="footer">2015/10/22 - Justin Huang</div>

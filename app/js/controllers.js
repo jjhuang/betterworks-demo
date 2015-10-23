@@ -6,11 +6,13 @@ var ctrl = angular.module('betterworksControllers', []);
 ctrl.controller('ChartCtrl', function($scope) {
     // Test data
     $scope.chartData = [
-        {'expected': 0.5, 'actual': 0.25},
-        {'expected': 0.1, 'actual': 1},
-        {'expected': 2, 'actual': -3},
-        {'expected': 0.5, 'actual': NaN},
-        {'expected': NaN, 'actual': 0.35}
+        {'id': 1, 'expected': 0.5, 'actual': 0.25},
+        {'id': 2, 'expected': 0.1, 'actual': 1},
+        {'id': 3, 'expected': 2, 'actual': -3},
+        {'id': 4, 'expected': 0.5, 'actual': NaN},
+        {'id': 5, 'expected': NaN, 'actual': 0.35},
+        {'id': 6, 'expected': 'expected', 'actual': 'actual'},
+        {'id': 7, 'expected': Number.NEGATIVE_INFINITY, 'actual': Number.POSITIVE_INFINITY}
     ];
 
     // Controlled by input fields
@@ -27,8 +29,8 @@ ctrl.directive("progressChart", function() {
             var radius = 45;
             var pi = Math.PI;
             var chart = d3.select(elem[0]);
-            var svg = chart.append("svg").attr("width", "200px").attr("height", "200px");
-            var group = svg.append("g").attr('transform', 'translate(100,100)');
+            var svg = chart.append("svg").attr("width", "150").attr("height", "150");
+            var group = svg.append("g").attr('transform', 'translate(75,75)');
             var circle = group.append("circle").attr("class", "progressCircle").attr("r", radius);
 
             // Render the outer arc
@@ -92,10 +94,11 @@ ctrl.directive("progressChart", function() {
                 });
             }
 
-            function bound(number, min, max) {
-                if (isNaN(number))
+            function bound(num, min, max) {
+                num = Number(num);
+                if (isNaN(num))
                     return 0;
-                return Math.max(Math.min(number, max), min);
+                return Math.max(Math.min(num, max), min);
             }
         }
     };
